@@ -39,13 +39,16 @@ This will output
 
 ```
 {
-  type: 'LineString',
-  coordinates: [
-    [0.0, 0.0],
-    [1.0, 1.0],
-    [2.0, 2.0],
-    [3.0, 3.0]
-  ]
+  type: 'Feature',
+  geometry: {
+    type: 'LineString',
+    coordinates: [
+      [0.0, 0.0],
+      [1.0, 1.0],
+      [2.0, 2.0],
+      [3.0, 3.0]
+    ]
+  }
 }
 ```
 
@@ -55,11 +58,11 @@ This will output
 var dissolve = require('geojson-dissolve')
 ```
 
-### dissolve([geojson])
+### dissolve(geojson)
 
-Consumes [GeoJSON](http://geojson.org/geojson-spec.html), and returns a new
-GeoJSON object, with all touching `LineString`s and `Polygon`s merged into
-single units.
+Consumes a [GeoJSON object](http://geojson.org/geojson-spec.html), and returns a
+new GeoJSON object, with all touching `LineString`s and `Polygon`s dissolved
+into single units.
 
 ## Install
 

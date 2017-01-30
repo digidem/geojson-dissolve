@@ -14,6 +14,14 @@
     "lint": "standard"
   },
   "keywords": [
+    "geojson",
+    "dissolve",
+    "merge",
+    "linestring",
+    "lines",
+    "polygon",
+    "multilinestring",
+    "multipolygon"
   ],
   "pre-commit": ["lint", "test"],
   "dependencies": {},

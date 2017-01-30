@@ -64,6 +64,9 @@ Consumes a [GeoJSON object](http://geojson.org/geojson-spec.html), and returns a
 new GeoJSON object, with all touching `LineString`s and `Polygon`s dissolved
 into single units.
 
+Dissolving will occur across all `Multi*` and `FeatureCollection` and
+`GeometryCollection` objects.
+
 ## Install
 
 With [npm](https://npmjs.org/) installed, run

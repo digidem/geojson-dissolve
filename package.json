@@ -23,8 +23,15 @@
     "multilinestring",
     "multipolygon"
   ],
-  "pre-commit": ["lint", "test"],
-  "dependencies": {},
+  "pre-commit": [
+    "lint",
+    "test"
+  ],
+  "dependencies": {
+    "@turf/union": "^3.7.5",
+    "clone": "^2.1.0",
+    "geojson-linestring-dissolve": "0.0.1"
+  },
   "devDependencies": {
     "tape": "~4.6.2",
     "standard": "~8.3.0",

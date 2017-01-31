@@ -67,6 +67,12 @@ into single units.
 Dissolving will occur across all `Multi*` and `FeatureCollection` and
 `GeometryCollection` objects.
 
+## Caveats
+
+Dissolving does not happen *across* `Features` within a `FeatureCollection`.
+You'll need to pre-transform your data to be `(Multi)LineString`s,
+`(Multi)Polygon`s, or `GeometryCollection`s.
+
 ## Install
 
 With [npm](https://npmjs.org/) installed, run

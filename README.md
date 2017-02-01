@@ -1,6 +1,6 @@
 # geojson-dissolve
 
-> Dissolve contiguous GeoJSON LineStrings and Polygons into single units.
+> Dissolve contiguous GeoJSON (Multi)LineStrings and (Multi)Polygons into single units.
 
 ## Usage
 
@@ -24,31 +24,20 @@ var line2 = {
   ]
 }
 
-var geometry = {
-  type: 'GeometryCollection'
-  geometries: [
-    line1,
-    line2
-  ]
-}
-
-console.log(dissolve(geometry))
+console.log(dissolve([line1, line2]))
 ```
 
 This will output
 
 ```
 {
-  type: 'Feature',
-  geometry: {
-    type: 'LineString',
-    coordinates: [
-      [0.0, 0.0],
-      [1.0, 1.0],
-      [2.0, 2.0],
-      [3.0, 3.0]
-    ]
-  }
+  type: 'LineString',
+  coordinates: [
+    [0.0, 0.0],
+    [1.0, 1.0],
+    [2.0, 2.0],
+    [3.0, 3.0]
+  ]
 }
 ```
 
@@ -58,20 +47,15 @@ This will output
 var dissolve = require('geojson-dissolve')
 ```
 
-### dissolve(geojson)
+### dissolve([geojson])
 
-Consumes a [GeoJSON object](http://geojson.org/geojson-spec.html), and returns a
-new GeoJSON object, with all touching `LineString`s and `Polygon`s dissolved
-into single units.
+Consumes a list of homogenous [GeoJSON
+objects](http://geojson.org/geojson-spec.html), and returns a single GeoJSON
+object, with all touching `LineString`s and `Polygon`s dissolved into single
+units. If everything cannot be dissolved, a `Multi-*` form is returned.
 
-Dissolving will occur across all `Multi*` and `FeatureCollection` and
-`GeometryCollection` objects.
-
-## Caveats
-
-Dissolving does not happen *across* `Features` within a `FeatureCollection`.
-You'll need to pre-transform your data to be `(Multi)LineString`s,
-`(Multi)Polygon`s, or `GeometryCollection`s.
+Accepted types are `MultiLineString`, `LineString`, `MultiPolygon`, and
+`Polygon`.
 
 ## Install
 

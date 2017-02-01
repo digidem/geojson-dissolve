@@ -29,7 +29,6 @@
   ],
   "dependencies": {
     "@turf/union": "^3.7.5",
-    "clone": "^2.1.0",
     "geojson-linestring-dissolve": "0.0.1"
   },
   "devDependencies": {

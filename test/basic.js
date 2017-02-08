@@ -1,4 +1,5 @@
 var test = require('tape')
+var polyEqual = require('geojson-polygons-equal')
 var dissolve = require('../')
 
 test('MultiLineString -> LineString', function (t) {
@@ -71,7 +72,7 @@ test('MultiPolygon -> Polygon', function (t) {
     ]
   }
 
-  t.deepEqual(dissolve(geojson), expected)
+  t.true(polyEqual(dissolve(geojson), expected))
   t.end()
 })
 

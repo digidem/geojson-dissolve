@@ -1,4 +1,5 @@
-var turfUnion = require('@turf/union')
+var createTopology = require('topojson-server').topology
+var mergeTopology = require('topojson-client').merge
 var dissolveLineStrings = require('geojson-linestring-dissolve')
 
 module.exports = dissolve
@@ -24,23 +25,8 @@ function flattenMultiLineString (multi) {
 }
 
 function dissolvePolygons (lst) {
-  // Map polygons to features -- turf-union requires this.
-  lst = lst.map(function (poly) {
-    return {
-      type: 'Feature',
-      properties: {},
-      geometry: poly
-    }
-  })
-
-  // turf-union also requires the list of polygons be provided as explicit
-  // function arguments.
-  var feature = turfUnion.apply(this, lst)
-
-  // Unpack the Feature back into its contents.
-  var result = feature.geometry
-
-  return result
+  var topo = createTopology(lst)
+  return mergeTopology(topo, topo.objects)
 }
 
 // [GeoJSON] -> String|Null
@@ -59,6 +45,9 @@ function getHomogenousType (geoms) {
 // Transform function: attempts to dissolve geojson elements where possible
 // [GeoJSON] -> GeoJSON
 function dissolve (geoms) {
+  // Topojson modifies in place, so we need to deep clone first
+  geoms = JSON.parse(JSON.stringify(geoms))
+
   // Assert homogenity
   var type = getHomogenousType(geoms)
   if (!type) {

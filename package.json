@@ -28,8 +28,9 @@
     "test"
   ],
   "dependencies": {
-    "@turf/union": "^3.7.5",
-    "geojson-linestring-dissolve": "0.0.1"
+    "geojson-linestring-dissolve": "0.0.1",
+    "topojson-client": "^2.1.0",
+    "topojson-server": "^2.0.0"
   },
   "devDependencies": {
     "benchmark": "^2.1.3",

@@ -24,7 +24,6 @@
     "multipolygon"
   ],
   "dependencies": {
-    "@turf/helpers": "^3.7.5",
     "@turf/meta": "^3.7.5",
     "geojson-flatten": "^0.2.1",
     "geojson-linestring-dissolve": "0.0.1",

@@ -1,5 +1,9 @@
 # geojson-dissolve
 
+[![Build Status](https://img.shields.io/travis/digidem/geojson-dissolve.svg)](https://travis-ci.org/digidem/geojson-dissolve)
+[![npm](https://img.shields.io/npm/v/geojson-dissolve.svg?maxAge=2592000)](https://www.npmjs.com/package/geojson-dissolve)
+
+
 > Dissolve contiguous GeoJSON (Multi)LineStrings and (Multi)Polygons into single units.
 
 ## Usage

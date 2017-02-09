@@ -23,10 +23,6 @@
     "multilinestring",
     "multipolygon"
   ],
-  "pre-commit": [
-    "lint",
-    "test"
-  ],
   "dependencies": {
     "@turf/helpers": "^3.7.5",
     "@turf/meta": "^3.7.5",
@@ -38,7 +34,6 @@
   "devDependencies": {
     "benchmark": "^2.1.3",
     "geojson-polygons-equal": "0.0.1",
-    "pre-commit": "~1.1.3",
     "standard": "~8.3.0",
     "tape": "~4.6.2"
   },

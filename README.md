@@ -29,7 +29,7 @@ console.log(dissolve([line1, line2]))
 
 This will output
 
-```
+```js
 {
   type: 'LineString',
   coordinates: [
@@ -47,15 +47,10 @@ This will output
 var dissolve = require('geojson-dissolve')
 ```
 
-### dissolve([geojson])
+### `dissolve([geojson])` or `dissolve(gj1, gj2, ...)`
 
 Consumes a list of homogenous [GeoJSON
-objects](http://geojson.org/geojson-spec.html), and returns a single GeoJSON
-object, with all touching `LineString`s and `Polygon`s dissolved into single
-units. If everything cannot be dissolved, a `Multi-*` form is returned.
-
-Accepted types are `MultiLineString`, `LineString`, `MultiPolygon`, and
-`Polygon`.
+objects](https://tools.ietf.org/html/rfc7946#section-3), and returns a single [GeoJSON Geometry Object](https://tools.ietf.org/html/rfc7946#section-3.1), with all touching `LineString`s and `Polygon`s dissolved into single geometries.
 
 ## Install
 

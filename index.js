@@ -3,7 +3,6 @@ var mergeTopology = require('topojson-client').merge
 var dissolveLineStrings = require('geojson-linestring-dissolve')
 var geomEach = require('@turf/meta').geomEach
 var flatten = require('geojson-flatten')
-var geometryCollection = require('@turf/helpers').geometryCollection
 
 module.exports = dissolve
 
@@ -13,7 +12,6 @@ function toArray (args) {
 }
 
 function dissolvePolygons (geoms) {
-  var gc = geometryCollection(geoms)
   // Topojson modifies in place, so we need to deep clone first
   geoms = JSON.parse(JSON.stringify(geoms))
   var topo = createTopology(geoms)

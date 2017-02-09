@@ -3,11 +3,11 @@ var glob = require('glob')
 var fs = require('fs')
 var path = require('path')
 
-var dissolve = require('./')
+var dissolve = require('../')
 
 var REGEN = process.env.GEOJSON_DISSOLVE_REGEN
 
-var pattern = path.join(__dirname, '/test/fixtures/in/*.geojson')
+var pattern = path.join(__dirname, '/fixtures/in/*.geojson')
 
 test('geojson-dissolve', function (t) {
   glob.sync(pattern).forEach(function (input) {

@@ -1,31 +1,22 @@
 var createTopology = require('topojson-server').topology
 var mergeTopology = require('topojson-client').merge
 var dissolveLineStrings = require('geojson-linestring-dissolve')
+var geomEach = require('@turf/meta').geomEach
+var flatten = require('geojson-flatten')
+var geometryCollection = require('@turf/helpers').geometryCollection
 
 module.exports = dissolve
 
-// MultiPolygon -> [Polygon]
-function flattenMultiPolygon (multi) {
-  return multi.coordinates.map(function (p) {
-    return {
-      type: 'Polygon',
-      coordinates: p
-    }
-  })
+function toArray (args) {
+  if (!args.length) return []
+  return Array.isArray(args[0]) ? args[0] : Array.prototype.slice.call(args)
 }
 
-// MultiLineString -> [LineString]
-function flattenMultiLineString (multi) {
-  return multi.coordinates.map(function (p) {
-    return {
-      type: 'LineString',
-      coordinates: p
-    }
-  })
-}
-
-function dissolvePolygons (lst) {
-  var topo = createTopology(lst)
+function dissolvePolygons (geoms) {
+  var gc = geometryCollection(geoms)
+  // Topojson modifies in place, so we need to deep clone first
+  geoms = JSON.parse(JSON.stringify(geoms))
+  var topo = createTopology(geoms)
   return mergeTopology(topo, topo.objects)
 }
 
@@ -42,12 +33,23 @@ function getHomogenousType (geoms) {
   return type
 }
 
-// Transform function: attempts to dissolve geojson elements where possible
-// [GeoJSON] -> GeoJSON
-function dissolve (geoms) {
-  // Topojson modifies in place, so we need to deep clone first
-  geoms = JSON.parse(JSON.stringify(geoms))
-
+// Transform function: attempts to dissolve geojson objects where possible
+// [GeoJSON] -> GeoJSON geometry
+function dissolve () {
+  // accept an array of geojson objects, or an argument list
+  var objects = toArray(arguments)
+  var geoms = objects.reduce(function (acc, o) {
+    // flatten any Multi-geom into features of simple types
+    var flat = flatten(o)
+    if (!Array.isArray(flat)) flat = [flat]
+    for (var i = 0; i < flat.length; i++) {
+      // get an array of all flatten geometry objects
+      geomEach(flat[i], function (geom) {
+        acc.push(geom)
+      })
+    }
+    return acc
+  }, [])
   // Assert homogenity
   var type = getHomogenousType(geoms)
   if (!type) {
@@ -57,18 +59,8 @@ function dissolve (geoms) {
   switch (type) {
     case 'LineString':
       return dissolveLineStrings(geoms)
-    case 'MultiLineString':
-      var lineStrings = geoms.reduce(function (accum, ls) {
-        return accum.concat(flattenMultiLineString(ls))
-      }, [])
-      return dissolveLineStrings(lineStrings)
     case 'Polygon':
       return dissolvePolygons(geoms)
-    case 'MultiPolygon':
-      var polygons = geoms.reduce(function (accum, poly) {
-        return accum.concat(flattenMultiPolygon(poly))
-      }, [])
-      return dissolvePolygons(polygons)
     default:
       return geoms
   }

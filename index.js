@@ -61,11 +61,28 @@ function dissolve () {
 
   switch (type) {
     case 'LineString':
-      return dissolveLineStrings(geoms)
+      return flattenIfSingular(dissolveLineStrings(geoms))
     case 'Polygon':
-      return dissolvePolygons(geoms)
+      return flattenIfSingular(dissolvePolygons(geoms))
     default:
       return geoms
   }
 }
 
+// Flatten a MultiLineString or MultiPolygon into a LineString or Polygon
+// (respectively), if there is only one entry.
+function flattenIfSingular (geom) {
+  if (geom.type === 'MultiLineString' && geom.coordinates.length === 1) {
+    return {
+      type: 'LineString',
+      coordinates: geom.coordinates[0]
+    }
+  } else if (geom.type === 'MultiPolygon' && geom.coordinates.length === 1) {
+    return {
+      type: 'Polygon',
+      coordinates: geom.coordinates[0]
+    }
+  } else {
+    return geom
+  }
+}

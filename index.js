@@ -13,9 +13,14 @@ function toArray (args) {
 
 function dissolvePolygons (geoms) {
   // Topojson modifies in place, so we need to deep clone first
-  geoms = JSON.parse(JSON.stringify(geoms))
-  var topo = createTopology(geoms)
-  return mergeTopology(topo, topo.objects)
+  var objects = {
+    geoms: {
+      type: 'GeometryCollection',
+      geometries: JSON.parse(JSON.stringify(geoms))
+    }
+  }
+  var topo = createTopology(objects)
+  return mergeTopology(topo, topo.objects.geoms.geometries)
 }
 
 // [GeoJSON] -> String|Null

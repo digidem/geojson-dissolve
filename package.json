@@ -24,7 +24,7 @@
     "multipolygon"
   ],
   "dependencies": {
-    "@turf/meta": "^3.7.5",
+    "@turf/meta": "^4.7.1",
     "geojson-flatten": "^0.2.1",
     "geojson-linestring-dissolve": "0.0.1",
     "topojson-client": "^3.0.0",
